@@ -5,7 +5,7 @@ import { useCardStore } from '@/store/cardStore';
 import DeckCard from '@/components/DeckCard';
 import QuickCardModal from '@/components/QuickCardModal';
 import ClientInit from '@/components/ClientInit';
-import { Plus, Layers, Clock, AlertCircle } from 'lucide-react';
+import { Plus, Layers, Clock, AlertCircle, Search } from 'lucide-react';
 
 function DashboardContent() {
   const { decks, cards, createDeck, setQuickCardModalOpen, signOut } = useCardStore();
@@ -32,9 +32,12 @@ function DashboardContent() {
       {/* Header */}
       <header className="sticky top-0 z-40 bg-[var(--card-bg)] border-b border-[var(--neo-border)] py-4 px-4 md:px-6 lg:px-12 flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <span className="text-2xl md:text-3xl font-bold tracking-tighter text-white bg-[var(--primary)] px-2 py-1 rounded-lg">
-            ⚡ NEKI
-          </span>
+          <div className="relative inline-flex items-center">
+            <span className="text-2xl md:text-3xl font-bold tracking-tighter text-white bg-[var(--primary)] px-3 py-1 rounded-lg">
+              NEKI
+            </span>
+            <Search className="absolute -right-2 -top-2 w-7 h-7 text-yellow-300 drop-shadow-lg" />
+          </div>
           <span className="hidden sm:inline text-xs font-semibold tracking-wider opacity-70 mt-1">
             Học lặp lại ngắt quãng
           </span>
