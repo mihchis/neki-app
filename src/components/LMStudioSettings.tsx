@@ -103,6 +103,9 @@ export default function LMStudioSettings({ isOpen, onClose }: LMStudioSettingsPr
                   <li>Start the server</li>
                   <li>Set the correct URL above</li>
                 </ol>
+                <div className="mt-2 pt-2 border-t border-[var(--neo-border)]">
+                  <strong>Note:</strong> This app uses LM Studio's <strong>OpenAI‑compatible API</strong> (recommended and fully supported). LM Studio 0.4.0 also introduces a native v1 API with additional features like MCP and stateful chats!
+                </div>
               </div>
             </div>
           </motion.div>
