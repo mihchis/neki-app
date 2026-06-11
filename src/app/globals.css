@@ -1,26 +1,235 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --background: #f8fafc;
+  --foreground: #334155;
+  --neo-border: #e2e8f0;
+  --card-bg: #ffffff;
+  --primary: #6366f1; /* Soft Indigo */
+  --primary-light: #e0e7ff;
+  --accent-blue: #3b82f6; /* Soft Blue */
+  --accent-blue-light: #dbeafe;
+  --accent-green: #22c55e; /* Soft Green */
+  --accent-green-light: #dcfce7;
+  --accent-red: #ef4444; /* Keep Red */
+  --accent-red-light: #fee2e2;
+  --accent-purple: #a855f7; /* Soft Purple */
+  --accent-purple-light: #f3e8ff;
+  --neo-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --neo-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --neo-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f172a;
+    --foreground: #e2e8f0;
+    --neo-border: #334155;
+    --card-bg: #1e293b;
+    --primary: #818cf8;
+    --primary-light: #1e293b;
+    --accent-blue: #60a5fa;
+    --accent-blue-light: #1e293b;
+    --accent-green: #4ade80;
+    --accent-green-light: #1e293b;
+    --accent-red: #f87171;
+    --accent-red-light: #1e293b;
+    --accent-purple: #c084fc;
+    --accent-purple-light: #1e293b;
+    --neo-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+    --neo-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+    --neo-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
   }
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Soft Design Classes */
+
+.neo-border {
+  border: 1px solid var(--neo-border);
+}
+
+.neo-border-bold {
+  border: 2px solid var(--neo-border);
+}
+
+.neo-shadow {
+  box-shadow: var(--neo-shadow);
+}
+
+.neo-shadow-lg {
+  box-shadow: var(--neo-shadow-lg);
+}
+
+.neo-shadow-sm {
+  box-shadow: var(--neo-shadow-sm);
+}
+
+/* Base Card */
+.neo-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--neo-border);
+  border-radius: 12px;
+  box-shadow: var(--neo-shadow);
+  transition: all 0.2s ease;
+}
+
+/* Interactive Card */
+.neo-card-interactive {
+  background-color: var(--card-bg);
+  border: 1px solid var(--neo-border);
+  border-radius: 12px;
+  box-shadow: var(--neo-shadow);
+  transition: all 0.2s ease;
+}
+
+.neo-card-interactive:hover {
+  box-shadow: var(--neo-shadow-lg);
+  transform: translateY(-2px);
+}
+
+.neo-card-interactive:active {
+  transform: translateY(0);
+  box-shadow: var(--neo-shadow-sm);
+}
+
+/* Base Button */
+.neo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--card-bg);
+  color: var(--foreground);
+  box-shadow: var(--neo-shadow-sm);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.neo-btn:hover {
+  box-shadow: var(--neo-shadow);
+  transform: translateY(-1px);
+}
+
+.neo-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Accent Button Variants */
+.neo-btn-primary {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+
+.neo-btn-blue {
+  background-color: var(--accent-blue);
+  color: #ffffff;
+}
+
+.neo-btn-green {
+  background-color: var(--accent-green);
+  color: #ffffff;
+}
+
+.neo-btn-red {
+  background-color: var(--accent-red);
+  color: #ffffff;
+}
+
+.neo-btn-purple {
+  background-color: var(--accent-purple);
+  color: #ffffff;
+}
+
+/* Inputs */
+.neo-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  border: 1px solid var(--neo-border);
+  border-radius: 8px;
+  background-color: var(--card-bg);
+  color: var(--foreground);
+  transition: all 0.2s ease;
+}
+
+.neo-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Select dropdowns */
+.neo-select {
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  border: 1px solid var(--neo-border);
+  border-radius: 8px;
+  background-color: var(--card-bg);
+  color: var(--foreground);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.neo-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Flashcard Flip Container */
+.card-flip-container {
+  perspective: 1000px;
+}
+
+.card-flip-inner {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.card-flipped {
+  transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+  border-left: 3px solid var(--neo-border);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border: 3px solid var(--neo-border);
 }

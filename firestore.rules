@@ -1,0 +1,17 @@
+// ====================================================================
+// FIRESTORE SECURITY RULES (QUY TẮC BẢO MẬT FIRESTORE)
+// ====================================================================
+// Hướng dẫn: Copy toàn bộ nội dung file này và dán đè vào tab Rules 
+// trên Firebase Console -> Firestore Database. Sau đó nhấn "Publish" (Xuất bản).
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Cho phép bất kỳ ai đã đăng nhập tài khoản (Email/Password) 
+    // đều có quyền Đọc và Ghi (Read & Write) tất cả các bộ bài và thẻ học.
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
