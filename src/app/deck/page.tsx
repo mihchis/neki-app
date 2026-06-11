@@ -236,7 +236,7 @@ function DeckDetailContent() {
             placeholder="Tìm kiếm thẻ (tìm kiếm ngữ nghĩa AI)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="neo-input pl-12 w-full"
+            className="neo-input pl-14 w-full"
           />
           {searchResults && searchQuery && (
             <button
