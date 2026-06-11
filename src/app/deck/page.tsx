@@ -62,15 +62,19 @@ function DeckDetailContent() {
     }
     setIsSearching(true);
     try {
-      const baseUrl = useLMStudioStore.getState().baseUrl;
+      const { baseUrl, embeddingModel } = useLMStudioStore.getState();
       
-      // Get embedding for query
-      const queryEmbedResponse = await fetch(`${baseUrl}/v1/embeddings`, {
+      // Get embedding for query via proxy to avoid CORS
+      const queryEmbedResponse = await fetch('/api/ai/proxy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'text-embedding-bge-m3',
-          input: searchQuery,
+          targetUrl: `${baseUrl}/v1/embeddings`,
+          method: 'POST',
+          body: {
+            model: embeddingModel,
+            input: searchQuery,
+          }
         }),
       });
 
@@ -236,7 +240,7 @@ function DeckDetailContent() {
             placeholder="Tìm kiếm thẻ (tìm kiếm ngữ nghĩa AI)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="neo-input pl-14 w-full"
+            className="neo-input !pl-12 w-full"
           />
           {searchResults && searchQuery && (
             <button

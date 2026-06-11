@@ -121,18 +121,21 @@ export default function QuickCardModal() {
     setErrorMessage('');
     
     try {
-      const baseUrl = useLMStudioStore.getState().baseUrl;
+      const { baseUrl, chatModel, embeddingModel } = useLMStudioStore.getState();
       
-      // Call API directly from browser
-      const response = await fetch(`${baseUrl}/v1/chat/completions`, {
+      // Call API via proxy to avoid CORS
+      const response = await fetch('/api/ai/proxy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'qwen/qwen3.5-9b',
-          messages: [
-            {
-              role: 'system',
-              content: `You are a flashcard generator. Generate exactly ${aiNumCards} high-quality flashcards from the provided content. Return ONLY a JSON array with the following structure (no extra text):
+          targetUrl: `${baseUrl}/v1/chat/completions`,
+          method: 'POST',
+          body: {
+            model: chatModel,
+            messages: [
+              {
+                role: 'system',
+                content: `You are a flashcard generator. Generate exactly ${aiNumCards} high-quality flashcards from the provided content. Return ONLY a JSON array with the following structure (no extra text):
 [
   {
     "front": "Term or question (English or from content)",
@@ -143,14 +146,15 @@ export default function QuickCardModal() {
   }
 ]
 Make sure front and back are clear and concise.`,
-            },
-            {
-              role: 'user',
-              content: `Generate flashcards from this content:\n\n${aiContent}`,
-            },
-          ],
-          temperature: 0.7,
-          max_tokens: 2048,
+              },
+              {
+                role: 'user',
+                content: `Generate flashcards from this content:\n\n${aiContent}`,
+              },
+            ],
+            temperature: 0.7,
+            max_tokens: 2048,
+          }
         }),
       });
 
@@ -174,12 +178,16 @@ Make sure front and back are clear and concise.`,
         cards.map(async (card: any) => {
           try {
             const combinedText = `${card.front} ${card.back} ${card.definition || ''} ${card.example || ''}`;
-            const embedResponse = await fetch(`${baseUrl}/v1/embeddings`, {
+            const embedResponse = await fetch('/api/ai/proxy', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                model: 'text-embedding-bge-m3',
-                input: combinedText,
+                targetUrl: `${baseUrl}/v1/embeddings`,
+                method: 'POST',
+                body: {
+                  model: embeddingModel,
+                  input: combinedText,
+                }
               }),
             });
             

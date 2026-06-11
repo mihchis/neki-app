@@ -11,7 +11,16 @@ interface LMStudioSettingsProps {
 }
 
 export default function LMStudioSettings({ isOpen, onClose }: LMStudioSettingsProps) {
-  const { baseUrl, setBaseUrl, testConnection } = useLMStudioStore();
+  const { 
+    baseUrl, 
+    setBaseUrl, 
+    testConnection, 
+    chatModel, 
+    embeddingModel, 
+    loadedModels, 
+    setChatModel, 
+    setEmbeddingModel 
+  } = useLMStudioStore();
   const [url, setUrl] = useState(baseUrl);
   const [isTesting, setIsTesting] = useState(false);
   const [testResult, setTestResult] = useState<'success' | 'error' | null>(null);
@@ -82,16 +91,55 @@ export default function LMStudioSettings({ isOpen, onClose }: LMStudioSettingsPr
               </div>
 
               {testResult === 'success' && (
-                <div className="flex items-center gap-2 text-green-600 dark:text-green-400 font-semibold p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
-                  <CheckCircle2 className="w-5 h-5" />
-                  <span>Connection successful!</span>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-green-600 dark:text-green-400 font-semibold p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                    <CheckCircle2 className="w-5 h-5" />
+                    <span>Connection successful!</span>
+                  </div>
+                  
+                  {loadedModels.length > 0 ? (
+                    <div className="neo-card p-3 space-y-3 border border-[var(--neo-border)] bg-[var(--background)]">
+                      <div className="space-y-1">
+                        <label className="block text-xs font-bold uppercase tracking-wider opacity-70">Active Chat Model</label>
+                        <select
+                          value={chatModel}
+                          onChange={(e) => setChatModel(e.target.value)}
+                          className="neo-select w-full py-1.5 px-2 text-sm bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--neo-border)] rounded"
+                        >
+                          {loadedModels.map((modelId) => (
+                            <option key={`chat-${modelId}`} value={modelId}>
+                              {modelId.split('/').pop() || modelId}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="space-y-1">
+                        <label className="block text-xs font-bold uppercase tracking-wider opacity-70">Active Embedding Model</label>
+                        <select
+                          value={embeddingModel}
+                          onChange={(e) => setEmbeddingModel(e.target.value)}
+                          className="neo-select w-full py-1.5 px-2 text-sm bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--neo-border)] rounded"
+                        >
+                          {loadedModels.map((modelId) => (
+                            <option key={`embed-${modelId}`} value={modelId}>
+                              {modelId.split('/').pop() || modelId}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-xs text-yellow-600 dark:text-yellow-400 font-semibold p-2 bg-yellow-50 dark:bg-yellow-900/20 rounded border border-yellow-200">
+                      No active models loaded in LM Studio. Please load models (e.g. qwen3.5-9b, bge-m3) in LM Studio.
+                    </div>
+                  )}
                 </div>
               )}
               
               {testResult === 'error' && (
                 <div className="flex items-center gap-2 text-red-600 dark:text-red-400 font-semibold p-3 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800">
                   <AlertCircle className="w-5 h-5" />
-                  <span>Connection failed. Check LM Studio is running!</span>
+                  <span>Connection failed. Check LM Studio is running and API Server is ON!</span>
                 </div>
               )}
 
