@@ -49,7 +49,7 @@ interface CardState {
   startSession: (deckId: string) => Promise<void>;
   answerCard: (quality: 0 | 3 | 4 | 5) => Promise<void>;
   toggleShuffle: () => void;
-  setQuickCardModalOpen: (open: boolean, deckId?: string, card?: Card) => void;
+  setQuickCardModalOpen: (open: boolean, deckId?: string | null, card?: Card) => void;
   seedSampleData: (userId: string) => Promise<void>;
   importCards: (deckId: string, cardsData: any[]) => Promise<void>;
   exportDeck: (deckId: string) => any;
